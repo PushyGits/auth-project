@@ -7,6 +7,8 @@ module.exports = {
   method: 'GET',
   path: '/welcome',
   handler: (req, reply) => {
+    // serve welcome page with handlebars vision
+
     const payload = querystring.stringify({
       code: req.query.code,
       client_id: process.env.FACEBOOK_CLIENT_ID,
@@ -22,10 +24,10 @@ module.exports = {
       // 1. setting up an object with key calue access_token
       // 2. second arguemt is a secret string that is used to encode the token
       const token = jwt.encode({
-        access_token: access_token,
-        key2: 'test'
+        access_token: access_token
       }, process.env.JWT_SECRET)
       console.log(token)
+      reply.redirect('/').state('token', token)
     })
   }
 }
