@@ -8,7 +8,6 @@ module.exports = {
       client_id: process.env.FACEBOOK_CLIENT_ID,
       redirect_uri: `${process.env.BASE_URL}/welcome`
     })
-    console.log(reply);
     reply.redirect(`https://www.facebook.com/dialog/oauth?${query}`)
   }
 }
