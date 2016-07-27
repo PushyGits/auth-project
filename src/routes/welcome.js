@@ -1,4 +1,4 @@
-const request = require('../lib/request.js')
+const request = require('request');
 const querystring = require('querystring')
 
 module.exports = {
@@ -12,16 +12,9 @@ module.exports = {
       client_secret: process.env.FACEBOOK_SECRET,
       redirect_uri: `${process.env.BASE_URL}/welcome`
     })
-    const options = {
-      hostname: 'graph.facebook.com',
-      port: 433,
-      path: '/v2.3/oauth/access_token',
-      method: 'GET',
-      body: payload
-    }
-    console.log(options);
-    request(options, (err, data) => {
-      console.log(err, data)
+
+    request(`https://graph.facebook.com/v2.3/oauth/access_token?${payload}`, (err, response, body) => {
+      console.log(err, body);
     })
   }
 }
