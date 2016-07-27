@@ -1,3 +1,5 @@
+const env = require('env2')
+env('config.env')
 const req = require('./require.js')
 
 const server = new req.Hapi.Server()

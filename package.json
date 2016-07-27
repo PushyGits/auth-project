@@ -22,5 +22,8 @@
     "hapi": "^13.5.0",
     "inert": "^4.0.1",
     "vision": "^4.1.0"
+  },
+  "devDependencies": {
+    "env2": "^2.1.0"
   }
 }
