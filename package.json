@@ -4,7 +4,8 @@
   "description": "\"Your project this week is to create a web app which implements 3rd party authentication and uses the user data it has access to via this third party in some way in the app\"",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/PushyGits/auth-project/issues"
   },
-  "homepage": "https://github.com/PushyGits/auth-project#readme"
+  "homepage": "https://github.com/PushyGits/auth-project#readme",
+  "dependencies": {
+    "handlebars": "^4.0.5",
+    "hapi": "^13.5.0",
+    "inert": "^4.0.1",
+    "vision": "^4.1.0"
+  }
 }
