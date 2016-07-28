@@ -1,5 +1,6 @@
 const jwt = require('jwt-simple')
 const request = require('request')
+const querystring = require('querystring')
 
 const getRandom = (len) => Math.floor(Math.random() * len)
 
@@ -13,7 +14,12 @@ module.exports = {
     }
     const userDetails = jwt.decode(req.state.token, process.env.JWT_SECRET)
 
-    const url = `https://graph.facebook.com/v2.3/${userDetails.id}/photos/uploaded?access_token=${userDetails.access_token}`
+    const options = querystring.stringify({
+      fields: 'link,name',
+      access_token: userDetails.access_token
+    })
+
+    const url = `https://graph.facebook.com/v2.3/${userDetails.id}/photos/uploaded?${options}`
 
     request(url, (err, response, body) => {
       if (err) throw err
@@ -24,9 +30,8 @@ module.exports = {
              .filter((number, idx, arr) => arr.indexOf(number) === idx)
              .slice(0, 5)
              .map(number => photos[number])
-      console.log('randoms', randoms)
 
-      reply(JSON.parse(body))
+      reply(randoms)
     })
   }
 }
