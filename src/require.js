@@ -3,10 +3,11 @@ const homepage = require('./routes/homepage.js')
 const login = require('./routes/login.js')
 const welcome = require('./routes/welcome.js')
 const get_photo = require('./routes/get_photo.js')
+const go_photos = require('./routes/go_photos.js')
 
 module.exports = {
   Hapi: require('hapi'),
   Handlebars: require('handlebars'),
   plugins: [require('inert'), require('vision')],
-  routes: [staticfile, homepage, login, welcome, get_photo]
+  routes: [staticfile, homepage, login, welcome, get_photo, go_photos]
 }
