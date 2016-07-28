@@ -4,6 +4,33 @@ const querystring = require('querystring')
 
 const getRandom = (len) => Math.floor(Math.random() * len)
 
+const getImages = (access_token, photos, cb) => {
+  const randoms =
+    Array.from({ length: 10 }, () => getRandom(photos.length))
+         .filter((number, idx, arr) => arr.indexOf(number) === idx)
+         .slice(0, 5)
+         .map(number => ({
+           method: 'GET',
+           relative_url: `/${photos[number].id}?fields=images`
+         }))
+
+    const options = {
+      form: {
+        access_token: access_token,
+        batch: JSON.stringify(randoms)
+      }
+    }
+
+    request.post('https://graph.facebook.com/v2.3/', options , (err, response, body) => {
+      if (err) cb(err)
+
+      const imgs = JSON.parse(body)
+                    .map(o => JSON.parse(o.body).images[0])
+
+      cb(null, imgs)
+    })
+}
+
 module.exports = {
   method: 'GET',
   path: '/api/get-photo',
@@ -24,32 +51,28 @@ module.exports = {
     request(url, (err, response, body) => {
       if (err) throw err
 
-      const photos = JSON.parse(body).data
+      const json = JSON.parse(body)
+      const photos = json.data
+      const next = json.paging.next
 
-      const randoms =
-        Array.from({ length: 10 }, () => getRandom(photos.length))
-             .filter((number, idx, arr) => arr.indexOf(number) === idx)
-             .slice(0, 5)
-             .map(number => ({
-               method: 'GET',
-               relative_url: `/${photos[number].id}?fields=images`
-             }))
+      const replyFn = (err, images) => {
+        if (err) throw err
+        reply(images)
+      }
 
-        const options = {
-          form: {
-            access_token: userDetails.access_token,
-            batch: JSON.stringify(randoms)
-          }
-        }
-
-        request.post('https://graph.facebook.com/v2.3/', options , (err, response, body) => {
+      if (!next) {
+        getImages(userDetails.access_token, photos, replyFn)
+      } else {
+        request(next, (err, response, body) => {
           if (err) throw err
 
-          const imgs = JSON.parse(body)
-                        .map(o => JSON.parse(o.body).images[0])
+          const json = JSON.parse(body)
+          const morePhotos = json.data
 
-          reply(imgs)
+          getImages(userDetails.access_token, [...morePhotos, ...photos], replyFn)
         })
+      }
+
     })
   }
 }
