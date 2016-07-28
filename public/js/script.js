@@ -21,7 +21,7 @@ getPhotos((err, photos) => {
 
   photos.forEach(photo => {
     const domImg = document.createElement('img')
-    domImg.src = photo.link
+    domImg.src = photo.source
     d.appendChild(domImg)
   })
 })
