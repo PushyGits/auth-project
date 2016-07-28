@@ -1,0 +1,16 @@
+body {
+  background-color: #000;
+  width: 100vw;
+  height: 500vh;
+  margin: 0; }
+
+.imageContainer {
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0; }
+
+/*# sourceMappingURL=matt-rich.css.map */
