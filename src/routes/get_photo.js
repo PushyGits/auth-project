@@ -24,14 +24,21 @@ module.exports = {
     request(url, (err, response, body) => {
       if (err) throw err
       const photos = JSON.parse(body).data
+      console.log(photos)
 
       const randoms =
         Array.from({ length: 10 }, () => getRandom(photos.length))
              .filter((number, idx, arr) => arr.indexOf(number) === idx)
              .slice(0, 5)
-             .map(number => photos[number])
+             .map(number => photos[number].id)
+            //  .map(number => photos[number])
 
-      reply(randoms)
+        const url2 = `https://graph.facebook.com/v2.3/${randoms[0]}?fields=images`
+
+        request(url2, (err, response, body) => {
+
+        })
+      // reply(randoms)
     })
   }
 }
