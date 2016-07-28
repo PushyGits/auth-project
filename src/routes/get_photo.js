@@ -23,15 +23,33 @@ module.exports = {
 
     request(url, (err, response, body) => {
       if (err) throw err
+
       const photos = JSON.parse(body).data
 
       const randoms =
         Array.from({ length: 10 }, () => getRandom(photos.length))
              .filter((number, idx, arr) => arr.indexOf(number) === idx)
              .slice(0, 5)
-             .map(number => photos[number])
+             .map(number => ({
+               method: 'GET',
+               relative_url: `/${photos[number].id}?fields=images`
+             }))
 
-      reply(randoms)
+        const options = {
+          form: {
+            access_token: userDetails.access_token,
+            batch: JSON.stringify(randoms)
+          }
+        }
+
+        request.post('https://graph.facebook.com/v2.3/', options , (err, response, body) => {
+          if (err) throw err
+
+          const imgs = JSON.parse(body)
+                        .map(o => JSON.parse(o.body).images[0])
+
+          reply(imgs)
+        })
     })
   }
 }
