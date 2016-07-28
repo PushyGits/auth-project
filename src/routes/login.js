@@ -6,7 +6,8 @@ module.exports = {
   handler (req, reply) {
     const query = querystring.stringify({
       client_id: process.env.FACEBOOK_CLIENT_ID,
-      redirect_uri: `${process.env.BASE_URL}/welcome`
+      redirect_uri: `${process.env.BASE_URL}/welcome`,
+      scope: 'user_photos'
     })
     reply.redirect(`https://www.facebook.com/dialog/oauth?${query}`)
   }
