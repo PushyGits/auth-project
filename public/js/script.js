@@ -20,21 +20,33 @@ const getPhotos = (n, cb) => {
   xhr.send()
 }
 
-getPhotos(numImages, (err, photos) => {
+const fill = n => +n < 10 ? `0${n}` : n
+
+const formatTime = dateString => {
+  const date = new Date(dateString)
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} - ${date.getHours()}:${fill(date.getMinutes())}`
+}
+
+getPhotos(numImages, (err, rawPhotos) => {
   if (err) throw err
 
   const container = document.getElementById('example')
+  const photos = rawPhotos.map(photo => Object.assign({}, photo, { created_time: formatTime(photo.created_time)}))
 
   photos.forEach(photo => {
-    const domImg = document.createElement('div')
-    domImg.className = 'imageContainer'
-    domImg.style.backgroundImage = 'url(' + photo.img.source + ')'
-    container.appendChild(domImg)
-  })
+      const domImg = document.createElement('div')
+      domImg.className = 'imageContainer'
+      domImg.data = JSON.stringify(photo)
+      domImg.style.backgroundImage = 'url(' + photo.img.source + ')'
+      container.appendChild(domImg)
+    })
+
+  document.getElementById('date').textContent = photos[photos.length - 1].created_time
 })
 
 
 let imageContainers
+let prevImg
 let interval
 
 document.addEventListener('scroll', () => {
@@ -50,7 +62,14 @@ document.addEventListener('scroll', () => {
   const crntImg = Math.floor(scrollY / interval)
   const opacity = (1 - crntPercent) * 4
 
-  console.log(crntImg, crntPercent)
+  if (crntImg !== prevImg) {
+    prevImg = crntImg
+    const data = JSON.parse(imageContainers[numImages - crntImg - 1].data)
+    document.getElementById('date').textContent = data.created_time
+    document.getElementById('captionText').textContent = data.name
+  }
+
+
   imageContainers.forEach((elem, idx) => {
     if (idx > crntImg) elem.style.opacity = 1;
     if (idx < crntImg) elem.style.opacity = 0;
