@@ -1,6 +1,6 @@
 body {
-  background-color: rgb(140, 178, 221);
-  font-family: 'Open Sans', sans-serif;
+  background-color: $background-blue;
+  font-family: $font;
 }
 
 #flex-wrapper {
@@ -13,9 +13,9 @@ body {
 }
 
 .text {
-  background-color: #3b5998;
+  background-color: $facebook-blue;
   text-transform: uppercase;
-  color: white;
+  color: $white;
   font-size: 2em;
   margin: 1em;
   padding: 0.5em;
@@ -27,16 +27,14 @@ body {
   cursor: pointer;
   height: 14em;
   width: 14em;
-  background-color: #3b5998;
-  -webkit-box-shadow: 10px 10px 0px 0px rgba(247,207,76,1);
-  -moz-box-shadow: 10px 10px 0px 0px rgba(247,207,76,1);
-  box-shadow: 10px 10px 0px 0px rgba(247,207,76,1);
+  background-color: $facebook-blue;
+  @include box-shadow (10px 10px 0px 0px $yellow);
   border: none;
   img {
     height: 10em;
     width: 10em;
   }
   &:hover {
-    background-color: #22407F;
+    background-color: darken($facebook-blue, 10%);
   }
 }

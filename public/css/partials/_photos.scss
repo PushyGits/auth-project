@@ -1,8 +1,7 @@
-body {
-  background-color: #000;
+#photo-body {
+  background-color: $background-blue;
   width: 100vw;
   height: 500vh;
-  margin: 0;
 }
 
 .imageContainer {
