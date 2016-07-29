@@ -16,7 +16,7 @@ module.exports = {
       // Get user details for access_token
       getFacebookUserDetailsForAccessToken(accessToken, (err, {id, name}) => {
         if (err) throw err
-        reply.redirect('/random-img-display.html')
+        reply.redirect('/random-hop')
              .state('token', jwtToken(id, name, accessToken))
       })
     })

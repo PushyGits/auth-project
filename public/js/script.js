@@ -42,6 +42,7 @@ getPhotos(numImages, (err, rawPhotos) => {
     })
 
   document.getElementById('date').textContent = photos[photos.length - 1].created_time
+  document.getElementById('captionText').textContent = photos[photos.length - 1].name || 'a photo with some pixels which are all different colours'
 })
 
 
