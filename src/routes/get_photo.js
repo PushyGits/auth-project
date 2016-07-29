@@ -4,11 +4,11 @@ const querystring = require('querystring')
 
 const getRandom = (len) => Math.floor(Math.random() * len)
 
-const getImages = (access_token, photos, cb) => {
+const getImagesFromPhotos = (access_token, photos, numImages, cb) => {
   const randoms =
-    Array.from({ length: 10 }, () => getRandom(photos.length))
+    Array.from({ length: 100 }, () => getRandom(photos.length))
          .filter((number, idx, arr) => arr.indexOf(number) === idx)
-         .slice(0, 5)
+         .slice(0, numImages)
          .map(number => ({
            method: 'GET',
            relative_url: `/${photos[number].id}?fields=images`
@@ -25,10 +25,34 @@ const getImages = (access_token, photos, cb) => {
       if (err) cb(err)
 
       const imgs = JSON.parse(body)
-                    .map(o => JSON.parse(o.body).images[0])
+                       .map(o => JSON.parse(o.body).images[0])
 
       cb(null, imgs)
     })
+}
+
+
+const getUserPhotos = (access_token, userId, crntPage, maxPages, acc, cb) => {
+  const options = querystring.stringify({
+    fields: 'link,name',
+    access_token: access_token
+  })
+
+  const url = `https://graph.facebook.com/v2.3/${userId}/photos/uploaded?${options}`
+
+  request(url, (err, response, raw) => {
+    if (err) cb(err)
+
+    const results = JSON.parse(raw)
+    const photos = [...acc, ...results.data]
+    const next = results.paging.next
+
+    if (!next || crntPage === maxPages) {
+      return cb(null, photos)
+    }
+
+    getUserPhotos(access_token, userId, crntPage + 1, maxPages, photos, cb)
+  })
 }
 
 module.exports = {
@@ -39,40 +63,17 @@ module.exports = {
       console.log('No token found :(')
       return
     }
+
+    const numImages = req.query.images || 5
     const userDetails = jwt.decode(req.state.token, process.env.JWT_SECRET)
 
-    const options = querystring.stringify({
-      fields: 'link,name',
-      access_token: userDetails.access_token
-    })
-
-    const url = `https://graph.facebook.com/v2.3/${userDetails.id}/photos/uploaded?${options}`
-
-    request(url, (err, response, body) => {
+    getUserPhotos(userDetails.access_token, userDetails.id, 1, 4, [], (err, photos) => {
       if (err) throw err
 
-      const json = JSON.parse(body)
-      const photos = json.data
-      const next = json.paging.next
-
-      const replyFn = (err, images) => {
+      getImagesFromPhotos(userDetails.access_token, photos, numImages, (err, images) => {
         if (err) throw err
         reply(images)
-      }
-
-      if (!next) {
-        getImages(userDetails.access_token, photos, replyFn)
-      } else {
-        request(next, (err, response, body) => {
-          if (err) throw err
-
-          const json = JSON.parse(body)
-          const morePhotos = json.data
-
-          getImages(userDetails.access_token, [...morePhotos, ...photos], replyFn)
-        })
-      }
-
+      })
     })
   }
 }
