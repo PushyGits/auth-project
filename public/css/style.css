@@ -108,4 +108,37 @@ body {
   top: 0;
   left: 0; }
 
+#caption {
+  position: fixed;
+  width: 100vw;
+  height: 20vh;
+  background-size: contain;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.68+25,0+100 */
+  background: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.68) 0%, rgba(0, 0, 0, 0.8) 25%, transparent 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 25%, transparent 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 4%, transparent 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad000000', endColorstr='#00000000',GradientType=0 );
+  z-index: 999;
+  bottom: 0;
+  left: 0; }
+
+.textCaption {
+  font-family: "Open Sans", sans-serif;
+  color: white;
+  position: fixed;
+  left: 0px;
+  width: 100vw;
+  font-size: 20px;
+  font-family: 'WarenhausTypenhebelStandard';
+  text-align: center; }
+
+#captionText {
+  bottom: 25px; }
+
+#date {
+  bottom: 3px; }
+
 /*# sourceMappingURL=style.css.map */
