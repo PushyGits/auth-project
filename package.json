@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/server.js"
+    "start": "nodemon src/server.js",
+    "sass": "sass ./public/css/style.scss --watch"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
     "jwt-simple": "^0.5.0",
     "request": "^2.74.0",
     "uuid": "^2.0.2",
+    "env2": "^2.1.0",
     "vision": "^4.1.0"
   },
   "devDependencies": {
