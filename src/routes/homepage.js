@@ -5,6 +5,6 @@ module.exports = {
     if (request.state.token) {
       return reply.redirect('go-photos')
     }
-    reply.view('homepage')
+    reply.view('go-photos')
   }
 }
