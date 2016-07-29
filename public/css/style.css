@@ -45,6 +45,18 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+#header {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  justify-content: center; }
+  #header img {
+    height: 8em;
+    margin: 1em;
+    -webkit-box-shadow: 5px 5px 0px 0px white;
+    -moz-box-shadow: 5px 5px 0px 0px white;
+    box-shadow: 5px 5px 0px 0px white; }
+
 body {
   background-color: #8cb2dd;
   font-family: 'Open Sans', sans-serif; }
@@ -80,18 +92,20 @@ body {
     height: 10em;
     width: 10em; }
   #login-button:hover {
-    background-color: #22407F; }
+    background-color: #2d4373; }
 
-#header {
-  display: flex;
-  position: absolute;
-  width: 100%;
-  justify-content: center; }
-  #header img {
-    height: 8em;
-    margin: 1em;
-    -webkit-box-shadow: 5px 5px 0px 0px white;
-    -moz-box-shadow: 5px 5px 0px 0px white;
-    box-shadow: 5px 5px 0px 0px white; }
+#photo-body {
+  background-color: #8cb2dd;
+  width: 100vw;
+  height: 500vh; }
+
+.imageContainer {
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0; }
 
 /*# sourceMappingURL=style.css.map */
