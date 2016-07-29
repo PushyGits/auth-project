@@ -13,7 +13,7 @@ module.exports = {
     const numImages = req.query.images || 5
     const userDetails = jwt.decode(req.state.token, process.env.JWT_SECRET)
 
-    getUserPhotos(userDetails.access_token, userDetails.id, 1, 4, [], (err, photos) => {
+    getUserPhotos(null, userDetails.access_token, userDetails.id, 1, 4, [], (err, photos) => {
       if (err) throw err
 
       getImagesFromPhotos(userDetails.access_token, photos, numImages, (err, images) => {
