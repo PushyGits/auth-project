@@ -66,7 +66,7 @@ document.addEventListener('scroll', () => {
     prevImg = crntImg
     const data = JSON.parse(imageContainers[numImages - crntImg - 1].data)
     document.getElementById('date').textContent = data.created_time
-    document.getElementById('captionText').textContent = data.name
+    document.getElementById('captionText').textContent = data.name || 'a photo with some pixels which are all different colours'
   }
 
 
