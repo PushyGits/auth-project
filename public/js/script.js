@@ -1,9 +1,11 @@
 
-window.onbeforeunload = function() {
-  window.scrollTo(0, 0)
-}
+const numImages = 15
 
-const getPhotos = (cb) => {
+// Before reload, ensure browser at top of page
+window.onbeforeunload = () => window.scrollTo(0, 0)
+
+// getPhotos from server
+const getPhotos = (n, cb) => {
   const xhr = new XMLHttpRequest()
 
   xhr.addEventListener('load', () => {
@@ -14,11 +16,11 @@ const getPhotos = (cb) => {
     cb(err)
   })
 
-  xhr.open('GET', '/api/get-photo')
+  xhr.open('GET', '/api/get-photo?images=' + n)
   xhr.send()
 }
 
-getPhotos((err, photos) => {
+getPhotos(numImages, (err, photos) => {
   if (err) throw err
 
   const container = document.getElementById('example')
@@ -31,24 +33,31 @@ getPhotos((err, photos) => {
   })
 })
 
+
+let imageContainers
+let interval
+
 document.addEventListener('scroll', () => {
-  const imageContainers = Array.from(document.getElementsByClassName('imageContainer'))
+  if (!imageContainers || imageContainers.length === 0) {
+    imageContainers = Array.from(document.getElementsByClassName('imageContainer')).reverse()
+    interval = ((document.body.clientHeight + 1) - window.innerHeight) / (numImages)
+  }
 
   if (imageContainers.length === 0) return
 
   const scrollY = document.body.scrollTop
-  const interval = document.body.clientHeight / 6
   const crntPercent = (scrollY % interval) / interval
-  const crntImg = 4 - (Math.floor(scrollY / interval))
+  const crntImg = Math.floor(scrollY / interval)
   const opacity = (1 - crntPercent) * 4
 
+  console.log(crntImg, crntPercent)
   imageContainers.forEach((elem, idx) => {
-    if (idx > crntImg) elem.style.opacity = 0;
-    if (idx < crntImg) elem.style.opacity = 1;
+    if (idx > crntImg) elem.style.opacity = 1;
+    if (idx < crntImg) elem.style.opacity = 0;
     if (idx === crntImg && crntPercent < 0.75) elem.style.opacity = 1;
   })
 
-  if (crntPercent > 0.75) {
+  if (crntPercent > 0.75 && crntImg !== numImages - 1) {
     imageContainers[crntImg].style.opacity = opacity;
   }
 })
