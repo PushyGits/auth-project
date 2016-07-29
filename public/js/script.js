@@ -28,7 +28,7 @@ getPhotos(numImages, (err, photos) => {
   photos.forEach(photo => {
     const domImg = document.createElement('div')
     domImg.className = 'imageContainer'
-    domImg.style.backgroundImage = 'url(' + photo.source + ')'
+    domImg.style.backgroundImage = 'url(' + photo.img.source + ')'
     container.appendChild(domImg)
   })
 })

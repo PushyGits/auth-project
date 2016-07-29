@@ -1,13 +1,14 @@
-const staticfile = require('./routes/staticfile.js')
-const homepage = require('./routes/homepage.js')
-const login = require('./routes/login.js')
-const welcome = require('./routes/welcome.js')
-const get_photo = require('./routes/get_photo.js')
-const go_photos = require('./routes/go_photos.js')
+// Require routes
+const staticfile = require('./routes/staticfile')
+const homepage = require('./routes/homepage')
+const login = require('./routes/login')
+const welcome = require('./routes/welcome')
+const getPhotos = require('./routes/get-photos')
 
+// Export core includes
 module.exports = {
   Hapi: require('hapi'),
   Handlebars: require('handlebars'),
   plugins: [require('inert'), require('vision')],
-  routes: [staticfile, homepage, login, welcome, get_photo, go_photos]
+  routes: [staticfile, homepage, login, welcome, getPhotos]
 }
